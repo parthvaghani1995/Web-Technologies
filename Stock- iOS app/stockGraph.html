@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html>
+    
+    <head>
+        <meta charset="UTF-8">
+            <title>new</title>
+            <meta charset="utf-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                    
+                    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+                        <script src="https://code.highcharts.com/stock/highstock.js"></script>
+                        <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                        <script type="text/javascript">
+                            //Async request
+                            var chartshown;
+                            function createGraph(graphType, a) {
+                                document.getElementById("container").innerHTML = " ";
+                                symbolName = a;
+                                try {
+                                    webkit.messageHandlers.callbackHandler.postMessage("Start");
+                                } catch (err) {
+                                    console.log('The native context does not exist yet');
+                                }
+                                var xhttp = new XMLHttpRequest();
+                                if (graphType == 0) { //PVgraph
+                                    var url = 'http://pnodejs-env.us-west-2.elasticbeanstalk.com/priceVolume/' + symbolName ;
+                                    xhttp.onreadystatechange = function() {
+                                        if (this.readyState == 4 && this.status == 200) {
+                                            resp = this.responseText;
+                                            //console.log(this.responseText);
+                                            PVgraph(resp);
+                                            try {
+                                                webkit.messageHandlers.callbackHandler.postMessage("End");
+                                            } catch (err) {
+                                                console.log('The native context does not exist yet');
+                                            }
+                                        }
+                                    };
+                                }
+                                if (graphType == 1) { //SMAgraph
+                                    var url = 'http://pnodejs-env.us-west-2.elasticbeanstalk.com/SMA/' + symbolName ;
+                                    xhttp.onreadystatechange = function() {
+                                        if (this.readyState == 4 && this.status == 200) {
+                                            resp = this.responseText;
+                                            //console.log(this.responseText);
+                                            SMAgraph(resp);
+                                            try {
+                                                webkit.messageHandlers.callbackHandler.postMessage("End");
+                                            } catch (err) {
+                                                console.log('The native context does not exist yet');
+                                            }
+                                        }
+                                    };
+                                }
+                                if (graphType == 2) { //EMAgraph
+                                    var url = 'http://pnodejs-env.us-west-2.elasticbeanstalk.com/EMA/' + symbolName ;
+                                    xhttp.onreadystatechange = function() {
+                                        if (this.readyState == 4 && this.status == 200) {
+                                            resp = this.responseText;
+                                            //console.log(this.responseText);
+                                            EMAgraph(resp);
+                                            try {
+                                                webkit.messageHandlers.callbackHandler.postMessage("End");
+                                            } catch (err) {
+                                                console.log('The native context does not exist yet');
+                                            }
+                                        }
+                                    };
+                                }
+                                if (graphType == 3) { //STOCHgraph
+                                    var url = 'http://pnodejs-env.us-west-2.elasticbeanstalk.com/STOCH/' + symbolName ;
+                                    xhttp.onreadystatechange = function() {
+                                        if (this.readyState == 4 && this.status == 200) {
+                                            resp = this.responseText;
+                                            //console.log(this.responseText);
+                                            STOCHgraph(resp);
+                                            try {
+                                                webkit.messageHandlers.callbackHandler.postMessage("End");
+                                            } catch (err) {
+                                                console.log('The native context does not exist yet');
+                                            }
+                                        }
+                                    };
+                                }
+                                if (graphType == 4) { //RSIgraph
+                                    var url = 'http://pnodejs-env.us-west-2.elasticbeanstalk.com/RSI/' + symbolName ;
+                                    xhttp.onreadystatechange = function() {
+                                        if (this.readyState == 4 && this.status == 200) {
+                                            resp = this.responseText;
+                                            //console.log(this.responseText);
+                                            RSIgraph(resp);
+                                            try {
+                                                webkit.messageHandlers.callbackHandler.postMessage("End");
+                                            } catch (err) {
+                                                console.log('The native context does not exist yet');
+                                            }
+                                        }
+                                    };
+                                }
+                                if (graphType == 5) { //ADXgraph
+                                    var url = 'http://pnodejs-env.us-west-2.elasticbeanstalk.com/ADX/' + symbolName ;
+                                    xhttp.onreadystatechange = function() {
+                                        if (this.readyState == 4 && this.status == 200) {
+                                            resp = this.responseText;
+                                            //console.log(this.responseText);
+                                            ADXgraph(resp);
+                                            try {
+                                                webkit.messageHandlers.callbackHandler.postMessage("End");
+                                            } catch (err) {
+                                                console.log('The native context does not exist yet');
+                                            }
+                                        }
+                                    };
+                                }
+                                if (graphType == 6) { //CCIgraph
+                                    var url = 'http://pnodejs-env.us-west-2.elasticbeanstalk.com/CCI/' + symbolName ;
+                                    xhttp.onreadystatechange = function() {
+                                        if (this.readyState == 4 && this.status == 200) {
+                                            resp = this.responseText;
+                                            //console.log(this.responseText);
+                                            CCIgraph(resp);
+                                            try {
+                                                webkit.messageHandlers.callbackHandler.postMessage("End");
+                                            } catch (err) {
+                                                console.log('The native context does not exist yet');
+                                            }
+                                        }
+                                    };
+                                }
+                                if (graphType == 7) { //BBandsgraph
+                                    var url = 'http://pnodejs-env.us-west-2.elasticbeanstalk.com/BBANDS/' + symbolName ;
+                                    xhttp.onreadystatechange = function() {
+                                        if (this.readyState == 4 && this.status == 200) {
+                                            resp = this.responseText;
+                                            //console.log(this.responseText);
+                                            BBANDSgraph(resp);
+                                            try {
+                                                webkit.messageHandlers.callbackHandler.postMessage("End");
+                                            } catch (err) {
+                                                console.log('The native context does not exist yet');
+                                            }
+                                        }
+                                    };
+                                }
+                                if (graphType == 8) { //MACDgraph
+                                    var url = 'http://pnodejs-env.us-west-2.elasticbeanstalk.com/MACD/' + symbolName ;
+                                    xhttp.onreadystatechange = function() {
+                                        if (this.readyState == 4 && this.status == 200) {
+                                            resp = this.responseText;
+                                            //console.log(this.responseText);
+                                            MACDgraph(resp);
+                                            try {
+                                                webkit.messageHandlers.callbackHandler.postMessage("End");
+                                            } catch (err) {
+                                                console.log('The native context does not exist yet');
+                                            }
+                                        }
+                                    };
+                                }
+                                xhttp.open("GET", url, true);
+                                xhttp.send();
+                                
+                            }
+                        //Async request end
+                        
+                        //priceGraph Function starts
+                        function PVgraph(data) {
+                            
+                            //var data = getJSON('https://www.alphavantage.co/query?function=SMA&symbol=' + symbolName + '&interval=daily&time_period=10&series_type=close&apikey=TYWWC92JUZSR9DOQ');
+                            //-------------------------------------------------------
+                            var parsedData = JSON.parse(data);
+                            var a = parsedData['Time Series (Daily)'];
+                            //console.log(parsedData);
+                            //console.log(parsedData['Meta Data']['3. Last Refreshed'].toString().substring(0, 10));
+                            var dataArray = new Array();
+                            var ColumnArray = new Array();
+                            //console.log(a);
+                            for (var key in a) {
+                                //console.log(key + "- "+ parsedData['Time Series (Daily)'][key]['1. open']);
+                                //Date.UTC(2013,11,3)
+                                var newDate = new Date(key);
+                                var arr1 = newDate.getTime();
+                                var arr2 = parseFloat(parsedData['Time Series (Daily)'][key]['1. open']);
+                                var arr3 = parseFloat(parsedData['Time Series (Daily)'][key]['5. volume']);
+                                var c = [arr1, arr2];
+                                var d = [arr1, arr3];
+                                //console.log(c);
+                                dataArray.push(c);
+                                ColumnArray.push(d);
+                            }
+                            
+                            
+                            var tickArray = new Array();
+                            var lastTickDate = dataArray[dataArray.length - 1][0];
+                            var firstTickDate = dataArray[0][0];
+                            
+                            while (firstTickDate > lastTickDate) {
+                                tickArray.push(firstTickDate);
+                                firstTickDate -= 1209600000
+                                //console.log(firstTickDate);
+                            }
+                            
+                            //console.log(dataArray1);
+                            
+                            chartshown = Highcharts.chart('container', {
+                                                       chart: {
+                                                       zoomType: 'x'
+                                                       },
+                                                       title: {
+                                                       text: symbolName + ' Stock Price and Volume ',
+                                                       xDateFormat: '%Y-%m'
+                                                       },
+                                                       subtitle: {
+                                                       text: "<a href='https://www.alphavantage.co/' style='text-decoration:none;' target='_blank'>Source:Alpha Vantage</a>",
+                                                       useHTML: true
+                                                       },
+                                                       xAxis: [{
+                                                               tickPositions: tickArray,
+                                                               //tickInterval: 1 * 24 * 3600 * 1000,
+                                                               ordinal: true,
+                                                               labels: {
+                                                               format: '{value:%m/%d}',
+                                                               enabled: true,
+                                                               align: 'center',
+                                                               rotation: -45
+                                                               }
+                                                               }],
+                                                       yAxis: [{
+                                                               title: {
+                                                               text: 'Stock Price'
+                                                               },
+                                                               legend: {
+                                                               enabled: false
+                                                               },
+                                                               min: 0
+                                                               }, {
+                                                               title: {
+                                                               text: 'volume'
+                                                               },
+                                                               legend: {
+                                                               enabled: false
+                                                               },
+                                                               opposite: true,
+                                                               }],
+                                                       plotOptions: {
+                                                       area: {
+                                                       color: 'rgb(22,120,184)',
+                                                       fillOpacity: 0.5,
+                                                       marker: {
+                                                       radius: 0
+                                                       },
+                                                       lineWidth: 1,
+                                                       states: {
+                                                       hover: {
+                                                       lineWidth: 2
+                                                       }
+                                                       },
+                                                       threshold: null
+                                                       },
+                                                       column: {
+                                                       color: 'red'
+                                                       }
+                                                       },
+                                                       tooltip: {
+                                                       shared: false,
+                                                       xDateFormat: '%m/%d'
+                                                       },
+                                                       series: [{
+                                                                type: 'area',
+                                                                name: "Price",
+                                                                data: dataArray,
+                                                                }, {
+                                                                type: 'column',
+                                                                name:' Volume',
+                                                                yAxis: 1,
+                                                                xAxis: 0,
+                                                                maxPointWidth: 5,
+                                                                data: ColumnArray
+                                                                }]
+                                                       });
+                        }
+                        
+                        //priceGraph Function ends
+                        
+                        function SMAgraph(data) {
+                            //var data = getJSON('https://www.alphavantage.co/query?function=SMA&symbol=' + symbolName + '&interval=daily&time_period=10&series_type=close&apikey=TYWWC92JUZSR9DOQ');
+                            //-------------------------------------------------------
+                            var parsedData = JSON.parse(data);
+                            var a = parsedData['Technical Analysis: SMA'];
+                            var b = parsedData['Meta Data']['3: Last Refreshed'];
+                            var todayDate = new Date(b);
+                            todayDate.setMonth(todayDate.getMonth() - 6);
+                            var dataArray = new Array();
+                            for (var key in a) {
+                                //console.log(key + "- "+ parsedData['Time Series (Daily)'][key]['1. open']);
+                                //Date.UTC(2013,11,3)
+                                var newDate = new Date(key);
+                                var arr1 = newDate.getTime();
+                                var arr2 = parseFloat(parsedData['Technical Analysis: SMA'][key]['SMA']);
+                                var c = [arr1, arr2];
+                                //console.log(c);
+                                dataArray.push(c);
+                                //console.log(arr1);
+                                if (newDate < todayDate) {
+                                    break;
+                                }
+                            }
+                            
+                            chartshown = Highcharts.chart('container', {
+                                                        chart: {
+                                                        type: 'line',
+                                                        zoomType: 'x'
+                                                        },
+                                                        title: {
+                                                        text: 'Simple Moving Average (SMA)',
+                                                        xDateFormat: '%Y-%m'
+                                                        },
+                                                        subtitle: {
+                                                        text: "<a href='https://www.alphavantage.co/' style='text-decoration:none;' target='_blank'>Source:Alpha Vantage</a>",
+                                                        useHTML: true
+                                                        },
+                                                        xAxis: [{
+                                                                //tickPositions: tickArray,
+                                                                //ordinal: true,
+                                                                tickInterval: 1 * 24 * 3600 * 1000,
+                                                                //showLastLabel: true,
+                                                                endOnTick: true,
+                                                                type: 'datetime',
+                                                                minTickInterval: 2,
+                                                                labels: {
+                                                                format: '{value:%m/%d}',
+                                                                enabled: true,
+                                                                align: 'center',
+                                                                rotation: -45,
+                                                                }
+                                                                }],
+                                                        tooltip: {
+                                                        xDateFormat: '%m/%d'
+                                                        },
+                                                        yAxis: [{
+                                                                lineWidth: 1,
+                                                                title: {
+                                                                text: 'SMA'
+                                                                }
+                                                                }],
+                                                        legend: {
+                                                        enabled: true,
+                                                        },
+                                                        plotOptions: {
+                                                        line: {
+                                                        color: '#c4392d',
+                                                        //lineWidth: 3
+                                                        }
+                                                        },
+                                                        series: [{
+                                                                 type: 'line',
+                                                                 name: symbolName,
+                                                                 data: dataArray
+                                                                 }]
+                                                        });
+                        }
+                        
+                        function EMAgraph(data) {
+                            //var data = getJSON('https://www.alphavantage.co/query?function=EMA&symbol=' + symbolName + '&interval=daily&time_period=10&series_type=close&apikey=TYWWC92JUZSR9DOQ');
+                            //-------------------------------------------------------
+                            var parsedData = JSON.parse(data);
+                            var a = parsedData['Technical Analysis: EMA'];
+                            var b = parsedData['Meta Data']['3: Last Refreshed'];
+                            var todayDate = new Date(b);
+                            todayDate.setMonth(todayDate.getMonth() - 6);
+                            var dataArray = new Array();
+                            for (var key in a) {
+                                //console.log(key + "- "+ parsedData['Time Series (Daily)'][key]['1. open']);
+                                //Date.UTC(2013,11,3)
+                                var newDate = new Date(key);
+                                var arr1 = newDate.getTime();
+                                var arr2 = parseFloat(parsedData['Technical Analysis: EMA'][key]['EMA']);
+                                var c = [arr1, arr2];
+                                //console.log(c);
+                                dataArray.push(c);
+                                //console.log(arr1);
+                                if (newDate < todayDate) {
+                                    break;
+                                }
+                            }
+                            
+                            chartshown = Highcharts.chart('container', {
+                                                        chart: {
+                                                        type: 'line',
+                                                        zoomType: 'x'
+                                                        },
+                                                        title: {
+                                                        text: 'Exponential Moving Average (EMA)',
+                                                        xDateFormat: '%Y-%m'
+                                                        },
+                                                        subtitle: {
+                                                        text: "<a href='https://www.alphavantage.co/' style='text-decoration:none;' target='_blank'>Source:Alpha Vantage</a>",
+                                                        useHTML: true
+                                                        },
+                                                        xAxis: [{
+                                                                //tickPositions: tickArray,
+                                                                //ordinal: true,
+                                                                tickInterval: 1 * 24 * 3600 * 1000,
+                                                                type: 'datetime',
+                                                                labels: {
+                                                                format: '{value:%m/%d}',
+                                                                enabled: true,
+                                                                align: 'center',
+                                                                rotation: -45
+                                                                }
+                                                                }],
+                                                        tooltip: {
+                                                        xDateFormat: '%m/%d'
+                                                        },
+                                                        yAxis: [{
+                                                                lineWidth: 1,
+                                                                title: {
+                                                                text: 'EMA'
+                                                                }
+                                                                }],
+                                                        legend: {
+                                                        enabled: true
+                                                        },
+                                                        plotOptions: {
+                                                        line: {
+                                                        color: '#c4392d',
+                                                        }
+                                                        },
+                                                        series: [{
+                                                                 type: 'line',
+                                                                 name: symbolName,
+                                                                 data: dataArray
+                                                                 }]
+                                                        });
+                        }
+                        
+                        function STOCHgraph(data) {
+                            //var data = getJSON('https://www.alphavantage.co/query?function=STOCH&symbol=' + symbolName + '&interval=daily&apikey=TYWWC92JUZSR9DOQ');
+                            //-------------------------------------------------------
+                            var parsedData = JSON.parse(data);
+                            var a = parsedData['Technical Analysis: STOCH'];
+                            var b = parsedData['Meta Data']['3: Last Refreshed'];
+                            var todayDate = new Date(b);
+                            todayDate.setMonth(todayDate.getMonth() - 6);
+                            var slowKArray = new Array();
+                            var slowDArray = new Array();
+                            for (var key in a) {
+                                //console.log(key + "- "+ parsedData['Time Series (Daily)'][key]['1. open']);
+                                //Date.UTC(2013,11,3)
+                                var newDate = new Date(key);
+                                var arr1 = newDate.getTime();
+                                var arr2 = parseFloat(parsedData['Technical Analysis: STOCH'][key]['SlowK']);
+                                var arr3 = parseFloat(parsedData['Technical Analysis: STOCH'][key]['SlowD']);
+                                var c = [arr1, arr2];
+                                var d = [arr1, arr3];
+                                //console.log(c);
+                                slowKArray.push(c);
+                                slowDArray.push(d);
+                                
+                                //console.log(arr1);
+                                if (newDate < todayDate) {
+                                    break;
+                                }
+                            }
+                            
+                            chartshown = Highcharts.chart('container', {
+                                                          chart: {
+                                                          type: 'line',
+                                                          zoomType: 'x'
+                                                          },
+                                                          title: {
+                                                          text: 'Stochastic Oscillator (STOCH)',
+                                                          xDateFormat: '%Y-%m'
+                                                          },
+                                                          subtitle: {
+                                                          text: "<a href='https://www.alphavantage.co/' style='text-decoration:none;' target='_blank'>Source:Alpha Vantage</a>",
+                                                          useHTML: true
+                                                          },
+                                                          xAxis: [{
+                                                                  //tickPositions: tickArray,
+                                                                  //ordinal: true,
+                                                                  tickInterval: 1 * 24 * 3600 * 1000,
+                                                                  //minTickInterval: 7*24 * 3600 * 1000,
+                                                                  type: 'datetime',
+                                                                  labels: {
+                                                                  format: '{value:%m/%d}',
+                                                                  enabled: true,
+                                                                  align: 'center',
+                                                                  rotation: -45
+                                                                  }
+                                                                  }],
+                                                          tooltip: {
+                                                          xDateFormat: '%m/%d'
+                                                          },
+                                                          yAxis: [{
+                                                                  lineWidth: 1,
+                                                                  title: {
+                                                                  text: 'STOCH'
+                                                                  }
+                                                                  }],
+                                                          legend: {
+                                                          enabled: true,
+                                                          },
+                                                          plotOptions: {
+                                                          line: {
+                                                          color: '#c4392d',
+                                                          }
+                                                          },
+                                                          series: [{
+                                                                   type: 'line',
+                                                                   name: symbolName + ' SlowK',
+                                                                   data: slowKArray
+                                                                   },
+                                                                   {
+                                                                   type: 'line',
+                                                                   name: symbolName + ' SlowD',
+                                                                   data: slowDArray,
+                                                                   color: '#0000ff'
+                                                                   }
+                                                                   ]
+                                                          });
+                        }
+                        
+                        function RSIgraph(data) {
+                            //var data = getJSON('https://www.alphavantage.co/query?function=RSI&symbol=' + symbolName + '&interval=daily&time_period=10&series_type=close&apikey=TYWWC92JUZSR9DOQ');
+                            //-------------------------------------------------------
+                            var parsedData = JSON.parse(data);
+                            var a = parsedData['Technical Analysis: RSI'];
+                            var b = parsedData['Meta Data']['3: Last Refreshed'];
+                            var todayDate = new Date(b);
+                            todayDate.setMonth(todayDate.getMonth() - 6);
+                            var dataArray = new Array();
+                            for (var key in a) {
+                                //console.log(key + "- "+ parsedData['Time Series (Daily)'][key]['1. open']);
+                                //Date.UTC(2013,11,3)
+                                var newDate = new Date(key);
+                                var arr1 = newDate.getTime();
+                                var arr2 = parseFloat(parsedData['Technical Analysis: RSI'][key]['RSI']);
+                                var c = [arr1, arr2];
+                                //console.log(c);
+                                dataArray.push(c);
+                                //console.log(arr1);
+                                if (newDate < todayDate) {
+                                    break;
+                                }
+                            }
+                            
+                            chartshown = Highcharts.chart('container', {
+                                                        chart: {
+                                                        type: 'line',
+                                                        zoomType: 'x'
+                                                        },
+                                                        title: {
+                                                        text: 'Relative Strength Index (RSI)',
+                                                        xDateFormat: '%Y-%m'
+                                                        },
+                                                        subtitle: {
+                                                        text: "<a href='https://www.alphavantage.co/' style='text-decoration:none;' target='_blank'>Source:Alpha Vantage</a>",
+                                                        useHTML: true
+                                                        },
+                                                        xAxis: [{
+                                                                //tickPositions: tickArray,
+                                                                //ordinal: true,
+                                                                tickInterval: 1 * 24 * 3600 * 1000,
+                                                                type: 'datetime',
+                                                                labels: {
+                                                                format: '{value:%m/%d}',
+                                                                enabled: true,
+                                                                align: 'center',
+                                                                rotation: -45
+                                                                }
+                                                                }],
+                                                        tooltip: {
+                                                        xDateFormat: '%m/%d'
+                                                        },
+                                                        yAxis: [{
+                                                                lineWidth: 1,
+                                                                title: {
+                                                                text: 'RSI'
+                                                                }
+                                                                }],
+                                                        legend: {
+                                                        enabled: true,
+                                                        },
+                                                        plotOptions: {
+                                                        line: {
+                                                        color: '#c4392d',
+                                                        }
+                                                        },
+                                                        series: [{
+                                                                 type: 'line',
+                                                                 name: symbolName,
+                                                                 data: dataArray
+                                                                 }]
+                                                        });
+                        }
+                        
+                        function ADXgraph(data) {
+                            //var data = getJSON('https://www.alphavantage.co/query?function=ADX&symbol=' + symbolName + '&interval=daily&time_period=10&apikey=TYWWC92JUZSR9DOQ');
+                            //-------------------------------------------------------
+                            var parsedData = JSON.parse(data);
+                            var a = parsedData['Technical Analysis: ADX'];
+                            var b = parsedData['Meta Data']['3: Last Refreshed'];
+                            var todayDate = new Date(b);
+                            todayDate.setMonth(todayDate.getMonth() - 6);
+                            var dataArray = new Array();
+                            for (var key in a) {
+                                //console.log(key + "- "+ parsedData['Time Series (Daily)'][key]['1. open']);
+                                //Date.UTC(2013,11,3)
+                                var newDate = new Date(key);
+                                var arr1 = newDate.getTime();
+                                var arr2 = parseFloat(parsedData['Technical Analysis: ADX'][key]['ADX']);
+                                var c = [arr1, arr2];
+                                //console.log(c);
+                                dataArray.push(c);
+                                //console.log(arr1);
+                                if (newDate < todayDate) {
+                                    break;
+                                }
+                            }
+                            
+                            chartshown = Highcharts.chart('container', {
+                                                        chart: {
+                                                        type: 'line',
+                                                        zoomType: 'x'
+                                                        },
+                                                        title: {
+                                                        text: 'Average Directional Movement Index (ADX)',
+                                                        xDateFormat: '%Y-%m'
+                                                        },
+                                                        subtitle: {
+                                                        text: "<a href='https://www.alphavantage.co/' style='text-decoration:none;' target='_blank'>Source:Alpha Vantage</a>",
+                                                        useHTML: true
+                                                        },
+                                                        xAxis: [{
+                                                                //tickPositions: tickArray,
+                                                                //ordinal: true,
+                                                                tickInterval: 1 * 24 * 3600 * 1000,
+                                                                type: 'datetime',
+                                                                labels: {
+                                                                format: '{value:%m/%d}',
+                                                                enabled: true,
+                                                                align: 'center',
+                                                                rotation: -45
+                                                                }
+                                                                }],
+                                                        tooltip: {
+                                                        xDateFormat: '%m/%d'
+                                                        },
+                                                        yAxis: [{
+                                                                lineWidth: 1,
+                                                                title: {
+                                                                text: 'ADX'
+                                                                }
+                                                                }],
+                                                        legend: {
+                                                        enabled: true,
+                                                        },
+                                                        plotOptions: {
+                                                        line: {
+                                                        color: '#c4392d',
+                                                        }
+                                                        },
+                                                        series: [{
+                                                                 type: 'line',
+                                                                 name: symbolName,
+                                                                 data: dataArray
+                                                                 }]
+                                                        });
+                        }
+                        
+                        function CCIgraph(data) {
+                            //var data = getJSON('https://www.alphavantage.co/query?function=CCI&symbol=' + symbolName + '&interval=daily&time_period=10&apikey=TYWWC92JUZSR9DOQ');
+                            //-------------------------------------------------------
+                            var parsedData = JSON.parse(data);
+                            var a = parsedData['Technical Analysis: CCI'];
+                            var b = parsedData['Meta Data']['3: Last Refreshed'];
+                            var todayDate = new Date(b);
+                            todayDate.setMonth(todayDate.getMonth() - 6);
+                            var dataArray = new Array();
+                            for (var key in a) {
+                                //console.log(key + "- "+ parsedData['Time Series (Daily)'][key]['1. open']);
+                                //Date.UTC(2013,11,3)
+                                var newDate = new Date(key);
+                                var arr1 = newDate.getTime();
+                                var arr2 = parseFloat(parsedData['Technical Analysis: CCI'][key]['CCI']);
+                                var c = [arr1, arr2];
+                                //console.log(c);
+                                dataArray.push(c);
+                                //console.log(arr1);
+                                if (newDate < todayDate) {
+                                    break;
+                                }
+                            }
+                            
+                            chartshown = Highcharts.chart('container', {
+                                                        chart: {
+                                                        type: 'line',
+                                                        zoomType: 'x'
+                                                        },
+                                                        title: {
+                                                        text: 'Commodity Channel Index (CCI)',
+                                                        xDateFormat: '%Y-%m'
+                                                        },
+                                                        subtitle: {
+                                                        text: "<a href='https://www.alphavantage.co/' style='text-decoration:none;' target='_blank'>Source:Alpha Vantage</a>",
+                                                        useHTML: true
+                                                        },
+                                                        xAxis: [{
+                                                                //tickPositions: tickArray,
+                                                                //ordinal: true,
+                                                                tickInterval: 1 * 24 * 3600 * 1000,
+                                                                type: 'datetime',
+                                                                labels: {
+                                                                format: '{value:%m/%d}',
+                                                                enabled: true,
+                                                                align: 'center',
+                                                                rotation: -45
+                                                                }
+                                                                }],
+                                                        tooltip: {
+                                                        xDateFormat: '%m/%d'
+                                                        },
+                                                        yAxis: [{
+                                                                lineWidth: 1,
+                                                                title: {
+                                                                text: 'CCI'
+                                                                }
+                                                                }],
+                                                        legend: {
+                                                        enabled: true,
+                                                        },
+                                                        plotOptions: {
+                                                        line: {
+                                                        color: '#c4392d',
+                                                        }
+                                                        },
+                                                        series: [{
+                                                                 type: 'line',
+                                                                 name: symbolName,
+                                                                 data: dataArray
+                                                                 }]
+                                                        });
+                        }
+                        
+                        function BBANDSgraph(data) {
+                            //var data = getJSON('https://www.alphavantage.co/query?function=BBANDS&symbol=' + symbolName + '&interval=daily&time_period=10&series_type=close&apikey=TYWWC92JUZSR9DOQ');
+                            //-------------------------------------------------------
+                            var parsedData = JSON.parse(data);
+                            var a = parsedData['Technical Analysis: BBANDS'];
+                            var b = parsedData['Meta Data']['3: Last Refreshed'];
+                            var todayDate = new Date(b);
+                            todayDate.setMonth(todayDate.getMonth() - 6);
+                            var RUBandArray = new Array();
+                            var RLBandArray = new Array();
+                            var RMBandArray = new Array();
+                            for (var key in a) {
+                                //console.log(key + "- "+ parsedData['Time Series (Daily)'][key]['1. open']);
+                                //Date.UTC(2013,11,3)
+                                var newDate = new Date(key);
+                                var arr1 = newDate.getTime();
+                                var arr2 = parseFloat(parsedData['Technical Analysis: BBANDS'][key]['Real Upper Band']);
+                                var arr3 = parseFloat(parsedData['Technical Analysis: BBANDS'][key]['Real Lower Band']);
+                                var arr4 = parseFloat(parsedData['Technical Analysis: BBANDS'][key]['Real Middle Band']);
+                                var c = [arr1, arr2];
+                                var d = [arr1, arr3];
+                                var e = [arr1, arr4];
+                                //console.log(c);
+                                RUBandArray.push(c);
+                                RLBandArray.push(d);
+                                RMBandArray.push(e);
+                                
+                                //console.log(arr1);
+                                if (newDate < todayDate) {
+                                    break;
+                                }
+                            }
+                            
+                            chartshown = Highcharts.chart('container', {
+                                                           chart: {
+                                                           type: 'line',
+                                                           zoomType: 'x'
+                                                           },
+                                                           title: {
+                                                           text: 'Bollinger Bands (BBANDS)',
+                                                           xDateFormat: '%Y-%m'
+                                                           },
+                                                           subtitle: {
+                                                           text: "<a href='https://www.alphavantage.co/' style='text-decoration:none;' target='_blank'>Source:Alpha Vantage</a>",
+                                                           useHTML: true
+                                                           },
+                                                           xAxis: [{
+                                                                   //tickPositions: tickArray,
+                                                                   //ordinal: true,
+                                                                   tickInterval: 1 * 24 * 3600 * 1000,
+                                                                   //minTickInterval: 7*24 * 3600 * 1000,
+                                                                   type: 'datetime',
+                                                                   labels: {
+                                                                   format: '{value:%m/%d}',
+                                                                   enabled: true,
+                                                                   align: 'center',
+                                                                   rotation: -45
+                                                                   }
+                                                                   }],
+                                                           tooltip: {
+                                                           xDateFormat: '%m/%d'
+                                                           },
+                                                           yAxis: [{
+                                                                   lineWidth: 1,
+                                                                   title: {
+                                                                   text: 'BBANDS'
+                                                                   }
+                                                                   }],
+                                                           legend: {
+                                                           enabled: true,
+                                                           },
+                                                           plotOptions: {
+                                                           line: {
+                                                           color: '#c4392d',
+                                                           }
+                                                           },
+                                                           series: [{
+                                                                    type: 'line',
+                                                                    name: symbolName + ' Real Upper Band',
+                                                                    data: RUBandArray,
+                                                                    color: '#000000'
+                                                                    },
+                                                                    {
+                                                                    type: 'line',
+                                                                    name: symbolName + ' Real Lower Band',
+                                                                    data: RLBandArray,
+                                                                    color: '#00ff00'
+                                                                    },
+                                                                    {
+                                                                    type: 'line',
+                                                                    name: symbolName + ' Real Medium Band',
+                                                                    data: RMBandArray,
+                                                                    color: '#ff0000'
+                                                                    }
+                                                                    ]
+                                                           });
+                        }
+                        
+                        function MACDgraph(data) {
+                            //var data = getJSON('https://www.alphavantage.co/query?function=MACD&symbol=' + symbolName + '&interval=daily&series_type=close&apikey=TYWWC92JUZSR9DOQ');
+                            //-------------------------------------------------------
+                            var parsedData = JSON.parse(data);
+                            var a = parsedData['Technical Analysis: MACD'];
+                            var b = parsedData['Meta Data']['3: Last Refreshed'];
+                            var todayDate = new Date(b);
+                            todayDate.setMonth(todayDate.getMonth() - 6);
+                            var dataArray = new Array();
+                            var MACDHistArray = new Array();
+                            var MACDSignalArray = new Array();
+                            for (var key in a) {
+                                //console.log(key + "- "+ parsedData['Time Series (Daily)'][key]['1. open']);
+                                //Date.UTC(2013,11,3)
+                                var newDate = new Date(key);
+                                var arr1 = newDate.getTime();
+                                var arr2 = parseFloat(parsedData['Technical Analysis: MACD'][key]['MACD']);
+                                var arr3 = parseFloat(parsedData['Technical Analysis: MACD'][key]['MACD_Hist']);
+                                var arr4 = parseFloat(parsedData['Technical Analysis: MACD'][key]['MACD_Signal']);
+                                var c = [arr1, arr2];
+                                var d = [arr1, arr3];
+                                var e = [arr1, arr4];
+                                //console.log(c);
+                                dataArray.push(c);
+                                MACDHistArray.push(d);
+                                MACDSignalArray.push(e);
+                                //console.log(arr1);
+                                if (newDate < todayDate) {
+                                    break;
+                                }
+                            }
+                            
+                            chartshown = Highcharts.chart('container', {
+                                                         chart: {
+                                                         type: 'line',
+                                                         zoomType: 'x'
+                                                         },
+                                                         title: {
+                                                         text: 'Moving Average Convergence/Divergence (MACD)',
+                                                         xDateFormat: '%Y-%m'
+                                                         },
+                                                         subtitle: {
+                                                         text: "<a href='https://www.alphavantage.co/' style='text-decoration:none;' target='_blank'>Source:Alpha Vantage</a>",
+                                                         useHTML: true
+                                                         },
+                                                         xAxis: [{
+                                                                 //categories: [],
+                                                                 tickInterval: 1 * 24 * 3600 * 1000,
+                                                                 //tickPositions: tickArray,
+                                                                 type: 'datetime',
+                                                                 labels: {
+                                                                 format: '{value:%m/%d}',
+                                                                 enabled: true,
+                                                                 align: 'center',
+                                                                 rotation: -45
+                                                                 },
+                                                                 //ordinal: true,
+                                                                 }],
+                                                         tooltip: {
+                                                         xDateFormat: '%m/%d'
+                                                         },
+                                                         yAxis: [{
+                                                                 lineWidth: 1,
+                                                                 title: {
+                                                                 text: 'MACD'
+                                                                 }
+                                                                 }],
+                                                         legend: {
+                                                         enabled: true,
+                                                         },
+                                                         plotOptions: {
+                                                         line: {
+                                                         color: '#c4392d',
+                                                         }
+                                                         },
+                                                         series: [{
+                                                                  type: 'line',
+                                                                  name: symbolName + ' MACD_Hist',
+                                                                  data: MACDHistArray,
+                                                                  color: '#000000'
+                                                                  },
+                                                                  {
+                                                                  type: 'line',
+                                                                  name: symbolName + ' MACD',
+                                                                  data: dataArray,
+                                                                  color: '#00ff00'
+                                                                  },
+                                                                  {
+                                                                  type: 'line',
+                                                                  name: symbolName + ' MACD_Signal',
+                                                                  data: MACDSignalArray,
+                                                                  color: '#ff0000'
+                                                                  }
+                                                                  ]
+                                                         });
+                        }
+                        function facebookshare(){
+                            
+                            var chart = chartshown;
+                            console.log(chart);
+                            function serialize(obj) {
+                                return Object.keys(obj).map(function(p) {
+                                                            return encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]);
+                                                            }).join("&");
+                            }
+                            
+                            function postToFacebook(url) {
+                                //console.log(chart.options.exporting.url + url);
+                                var url = chart.options.exporting.url + url,
+                                title = chart.options.title.text;
+                                alert(url);
+                                try {
+                                    webkit.messageHandlers.callbackHandler.postMessage(url);
+                                } catch (err) {
+                                    console.log('The native context does not exist yet');
+                                }
+                                /*window.open('http://www.facebook.com/sharer.php?u=' + encodeURIComponent(url) + '&t=' +
+                                            encodeURIComponent(title), 'sharer', 'toolbar=0,status=0,width=626,height=436');*/
+                            }
+                            
+                            $.ajax({
+                                   type: 'POST',
+                                   data: serialize({
+                                                   svg: chart.getSVGForExport(),
+                                                   type: 'image/png',
+                                                   async: true
+                                                   }),
+                                   url: chart.options.exporting.url,
+                                   success: postToFacebook,
+                                   error: function(e) {
+                                   throw e;
+                                   }
+                                   });
+                        }
+                            </script>
+                        
+                        <style type="text/css">
+                            #container {
+                                margin-right: 10px;
+                                margin-left: -10px;
+                            }
+                        
+                            </style>
+                        </head>
+    
+    <body id="body">
+        <div class="row">
+            <div class="col-md-12">
+                <div id="container"></div>
+            </div>
+        </div>
+        
+        <!--Getting xml data -->
+        
+        <script>
+            //createGraph(0,"AAPL")
+            
+            </script>
+        
+        </script>
+    </body>
+    
+</html>
