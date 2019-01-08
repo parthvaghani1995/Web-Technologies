@@ -1,5 +1,5 @@
 # Description
-We were are required to write a HTML/JavaScript program, which takes the URL of a JSON document containing US Airlines information, parses the JSON file, and extracts the list of airlines, displaying them in a table. The JavaScript program will be embedded in an HTML file so that it can be executed within a browser.<br>
+We were required to write a HTML/JavaScript program, which takes the URL of a JSON document containing US Airlines information, parses the JSON file, and extracts the list of airlines, displaying them in a table. The JavaScript program is be embedded in the [HTML file](index.html) so that it can be executed within a browser.<br>
 
 • The program displayed a text box to enter the JSON file name as shown below and on clicking the “Submit Query” button, the program displayed the table as shown below. If the text box is left empty and Submit Query is clicked, an appropriate
 error message was shown.<br>
