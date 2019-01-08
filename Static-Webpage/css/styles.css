@@ -1,0 +1,181 @@
+body{
+  background-color:rgb(0,67,112);
+  font-family: sans-serif;
+}
+
+a{
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.paddingrsmall{
+  padding-right:10px;
+}
+
+.endtoend{
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+#top {
+  background-color: white;
+}
+
+#logoimg{
+  padding: 15px 0px 5px 60px;
+
+}
+
+#cntr{
+    width: 100%auto;
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 90px;
+}
+
+#an{
+  float: right;
+  padding: 10px 30px;
+  font-size: 20px;
+  color: white;
+  background-color: rgb(197,17, 57);
+  border-radius: 5px;
+  margin-top: 15px;
+  margin-right: 70px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  box-shadow:0.5px 0.5px 1px 1px pink inset;
+  border: 1px solid rgb(197,17, 57);
+}
+
+input[type="button"]:hover{
+  background-color: rgb(175,17, 57) !important;
+}
+
+#calldetails{
+  width: 360px;
+  font-weight: bold;
+  text-align: end;
+  position: absolute;
+  right: 240px;
+  top: 26px;
+  line-height: 20px;
+  font-size: 17px;
+  font-family: sans-serif;
+}
+
+#needmoney{
+  font-size: 61px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  font-family: sans-serif;
+  line-height: 67px;
+  margin-top: 80px;
+  margin-bottom: 50px;
+}
+
+#personal{
+  font-size: 35px;
+  color: white;
+  text-align: center;;
+  font-family: sans-serif;
+  margin-bottom: 33px;
+}
+
+#GetInfo{
+  padding: 7px 32px 10px 32px;
+  font-size: 21px;
+  color: white;
+  background-color: rgb(197,17, 57);
+  border-radius: 5px;
+  margin-left: 45%;
+  cursor: pointer;
+  box-shadow:0.5px 0.5px 1px 1px pink inset;
+  border: 1px solid rgb(197,17, 57);
+}
+
+#bbnlogo{
+  position: relative;
+  right: -273px;
+  top: 20px;
+}
+
+#bottomtext{
+  background-color: white;
+  margin-top: 70px;
+}
+
+#bottomtitle{
+  font-family: sans-serif;
+  text-align: center;
+  font-size: 45px;
+  font-weight: 600;
+  line-height: 50px;
+}
+
+.strong{
+  font-weight: 600;
+  font-size: 23px;
+}
+
+#tickmark{
+  display: inline-block;
+  font-size: 20px;
+  width: 247px;
+  font-family: sans-serif;
+}
+
+#inline{
+  display: inline-block;
+  vertical-align: top;
+  text-align: left;
+}
+#inline1{
+  display: inline-block;
+  position: relative;
+  bottom: 60px;
+}
+
+#bottomslide{
+  padding:5px;
+}
+
+#bottomlast{
+  background-color:rgb(0,67,112);
+}
+
+#legal{
+  color: white;
+}
+
+.paddingrsmall{
+  padding-right:10px;
+}
+
+.rights{
+  color:white;
+  font-size: 14px;
+}
+
+.paddingrlmedium{
+  margin-right:25px;
+  margin-left:25px;
+}
+
+#footer{
+  padding:5px 60px 0px 60px;
+}
+
+.bglightblue{
+  background: rgb(0, 115, 180);
+}
+
+.lightblue{
+  color : rgb(0, 137, 214);
+}
+
+#small{
+  line-height: 26px;
+  font-size: 18px;
+}
