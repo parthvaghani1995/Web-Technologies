@@ -1,0 +1,170 @@
+body {
+    background-image: url('http://cs-server.usc.edu:45678/hw/hw8/images/background.png');
+   height: auto !important;
+}
+#tabs{
+   padding-top: 20px;
+}
+
+.padding-left-5{
+   margin-left: 5px;
+}
+
+.extra{
+   padding-top: 10px;
+}
+
+.SMStext {
+    background-color: white;
+    width: 90%;
+    margin-top: 10px;
+    border-radius: 8px;
+}
+
+#SMStitle {
+    padding-top: 20px;
+    padding-bottom: 5px;
+}
+
+#SMSTextTitle {
+    font-weight: bold;
+}
+
+.SMSTextMid {
+    padding-bottom: 40px;
+}
+
+.font-weight-bold {
+    font-weight: bold;
+}
+
+.StockDetailsDiv,
+.FavouritesDiv {
+    margin-top: 20px;
+}
+
+.StockDeatilsHeading,
+.FavouritesHeading {
+    padding-bottom: 0px;
+    text-align: center;
+}
+
+.StockDeatilsHeading button {
+    float: left;
+}
+
+#currentStock button {
+    float: right;
+}
+
+#FBlogo {
+    width: 20px;
+    height: 20px;
+}
+
+#currentStockTable {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 8px;
+    border-top: 1px solid #ddd;
+}
+
+tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+#currentStockTableDiv {
+    margin-top: 30px;
+}
+
+.float-right {
+    float: right;
+}
+
+.float-left {
+    float: left;
+    ;
+}
+
+.StockDetailsDiv {
+    display: none;
+}
+
+.padding-top-5{
+   padding-top: 6px;
+}
+
+.padding-right-0{
+   padding-right: 0px;
+}
+
+.padding-top-15{
+   padding-top: 15px;
+}
+.padding-top-20{
+   padding-top: 20px;
+}
+
+.glyphicon-star {
+   color: #ffd000;
+}
+
+#arrowimg {
+    height: 15px;
+}
+
+#symbolInputDiv md-autocomplete{
+   border:0;
+}
+
+#symbolInputDiv md-autocomplete md-autocomplete-wrap{
+   box-shadow: none;
+}
+
+
+#symbolInputDiv md-autocomplete md-autocomplete-wrap input{
+   box-shadow: none;
+   border: 1px solid #ccc;
+   border-radius: 4px;
+   box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+   webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+#symbolInputDiv md-autocomplete md-autocomplete-wrap:focus{
+   border-color: #66afe9;
+   outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 18px rgba(102,175,233,.6);
+}
+
+#symbolInputDiv md-autocomplete md-autocomplete-wrap input:focus{
+   border-color: #66afe9;
+   outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+}
+
+.has-error{
+   border-color: #843534;
+   -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 16px #ce8483;
+   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 16px #ce8483;
+}
+
+md-autocomplete > md-autocomplete-wrap > md-progress-linear { display: none; }
+
+@media (max-width: 991px) {
+    .mobile-only {
+        display:block !important;
+    }
+
+    .desktop-only {
+        display:none !important;
+    }
+}

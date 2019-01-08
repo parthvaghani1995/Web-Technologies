@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Hello, world!</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap2-toggle.min.css" rel="stylesheet">
+   <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap2-toggle.min.js"></script>
+   <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+   <script src="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.5/angular-material.js"></script>
+   <script src="https://code.highcharts.com/stock/highstock.js"></script>
+   <script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+   <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/t-114/svg-assets-cache.js"></script>
+
+    <script src="ang.js"></script>
+    <link rel="stylesheet" href="https://cdn.gitcdn.link/cdn/angular/bower-material/v1.1.5/angular-material.css" />
+   <link rel="stylesheet" href="https://material.angularjs.org/1.1.5/docs.css" />
+   <link rel="stylesheet" href="animate.min.css" />
+   <link rel="stylesheet" href="angular.css" />
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="moment.js"></script>
+    <script src="timezone.js"></script>
+    <link rel="stylesheet" href='style.css'>
+
+</head>
+
+<body ng-app="myApp" ng-controller='stockCtrl' id="controllerID" ng-init=favloading()>
+    <!-- First Division Starts -->
+    <div class="extra"></div>
+    <div class='SMStext container'>
+        <div class='row text-center'>
+            <div class='col-md-12'>
+                <h4 id="SMStitle">Stock Market Search</h4>
+            </div>
+        </div>
+        <div class='row SMSTextMid'>
+            <div class='col-md-3'>
+                <p id="SMSTextTitle">Enter Stock Ticker Symbol:<span class='text-danger'>*</span>
+                </p>
+            </div>
+            <div class='col-md-6' id="symbolInputDiv" ng-class="{'has-error' : !SymbolInput && focus};" ng-controller="autocompleteController as ctrl">
+               <md-autocomplete ng-model="SymbolInput"  md-selected-item = "selectedItem" md-search-text="ctrl.searchText" md-items="item in ctrl.querySearch(ctrl.searchText)" md-item-text="item.Symbol" md-search-text-change="searchTextChange(ctrl.searchText)"md-delay="300" md-min-length="1" md-clear-button="false"  placeholder="e.g. AAPL">
+                    <div layout="row" class="item" layout-align="start center">
+                      <span >{{item.Symbol}} - {{item.Name}} ({{item.Exchange}})</span>
+                    </div>
+                  </md-autocomplete>
+
+                <!--<input type="text" placeholder="e.g. AAPL" class="form-control" name="SymbolName" ng-model="SymbolInput" ng-focus="focus=true" ng-blur="focus=false;" id="SymbolInputValue">-->
+                <p><span ng-show="!DisplayError">please enter a stock ticker symbol</span>
+                </p>
+            </div>
+            <div class="col-md-3" id="SMSbuttons">
+                <button type="button" class="btn btn-info" ng-click="startFetchingData()" id="GetQuoteBtn">
+                    <span class="glyphicon glyphicon-search"></span> Get Quote
+                </button>
+                <button type="button" class="btn btn-default" id="clrBtn">
+                    <span class="glyphicon glyphicon-refresh"></span> Clear
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- First Division ENDS -->
+    <!-- Second Division Starts -->
+    <div class="container">
+        <hr>
+    </div>
+    <!-- Second Division Ends -->
+    <!-- Third Division Starts -->
+
+        <div class="container SMStext">
+            <div class="panel panel-default StockDetailsDiv">
+                <div class="panel-heading StockDeatilsHeading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="button" class="btn btn-default slideBtn" id="leftbtn" ng-click="favloading()" >
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                        </button>
+                            <span class="font-weight-bold">Stock Details</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="nav nav-pills">
+                                <li class="active" id="curStock">
+                                    <a data-toggle="tab" data-target="#currentStock"><span class="glyphicon glyphicon-dashboard"></span> <span class="hidden-xs">Current</span> Stock</a>
+                                </li>
+                                <li id="hisCharts">
+                                    <a data-toggle="tab" data-target="#historicalChart"><span class="glyphicon glyphicon-stats"></span><span class="hidden-xs">Historical</span> Charts</a>
+                                </li>
+                                <li class="nFeed">
+                                    <a data-toggle="tab" data-target="#newsFeed"><span class="glyphicon glyphicon-link"></span> News<span class="hidden-xs"> Feed</span></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <hr>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="tab-content clearfix">
+                                <div class="tab-pane active" id="currentStock">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div>
+                                                <span class="font-weight-bold">Stock Details</span>
+                                                <button type="button" class="btn btn-default" ng-disabled="loading || otherloading" id="facebook">
+                                                <span><img src="http://cs-server.usc.edu:45678/hw/hw8/images/facebook.png" id='FBlogo'></span>
+                                            </button>
+                                                <button type="button" class="btn btn-default" id="starChangeButton" ng-disabled="loading">
+                                                <span class="glyphicon glyphicon-star-empty" id="starChange" ng-click="favloading()"></span>
+                                            </button>
+                                            </div>
+                                            <div id="currentStockTableDiv">
+                                                <div ng-show="loadingErrorStock" class="loading">
+                                                    <div class="alert alert-danger">
+                                                        Error! Failed to get current stock data.
+                                                    </div>
+                                                </div>
+                                                <div ng-show="loading" class="loading">
+                                                    <div class="progress">
+                                                        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%"></div>
+                                                    </div>
+                                                </div>
+                                                <table id="currentStockTable" ng-show="!loading && !loadingErrorStock">
+                                                    <tr>
+                                                        <th>Stock Ticker Symbol</th>
+                                                        <td id="DisplayedStockName">{{stockSymbolLabel | uppercase}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Last Price</th>
+                                                        <td>{{lastPriceLabel | number: 2}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Change(Change Percentage)</th>
+                                                        <td class={{changeClassLabel}}>{{changeLabel | number: 2}} ({{changePercentageLabel | number: 2}}%) <img src={{imgsrcLabel}} id=arrowimg></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>TimeStamp</th>
+                                                        <td>{{timeStampLabel}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Open</th>
+                                                        <td>{{openLabel | number: 2}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Previous Close</th>
+                                                        <td>{{previousCloseLabel | number: 2}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Days's Range</th>
+                                                        <td>{{dayRangeLowLabel | number: 2}} - {{dayRangeHighLabel | number: 2}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Volume</th>
+                                                        <td>{{volumeLabel | number}}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-12" id="tabs" class="padding-top-20">
+                                                    <ul class="nav nav-tabs" id="Charts">
+                                                        <li class="active" id="price">
+                                                            <a data-toggle="tab" href="#priceChart">Price</a>
+                                                        </li>
+                                                        <li id="sma" on-click=checkaloading(1)>
+                                                            <a data-toggle="tab" href="#smaChart">SMA</a>
+                                                        </li>
+                                                        <li id="ema" on-click=checkaloading(2)>
+                                                            <a data-toggle="tab" href="#emaChart">EMA</a>
+                                                        </li>
+                                                        <li id="stoch" on-click=checkaloading(3)>
+                                                            <a data-toggle="tab" href="#stochChart">STOCH</a>
+                                                        </li>
+                                                        <li id="rsi" on-click=checkaloading(4)>
+                                                            <a data-toggle="tab" href="#rsiChart">RSI</a>
+                                                        </li>
+                                                        <li id="adx" on-click=checkaloading(5)>
+                                                            <a data-toggle="tab" href="#adxChart">ADX</a>
+                                                        </li>
+                                                        <li id="cci" on-click=checkaloading(6)>
+                                                            <a data-toggle="tab" href="#cciChart">CCI</a>
+                                                        </li>
+                                                        <li id="bbands" on-click=checkaloading(7)>
+                                                            <a data-toggle="tab" href="#bbandsChart">BBANDS</a>
+                                                        </li>
+                                                        <li id="macd" on-click=checkaloading(8)>
+                                                            <a data-toggle="tab" href="#macdChart">MACD</a>
+                                                        </li>
+                                                    </ul>
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane active" id='priceChart'>
+                                                            <div id=priceChartContainer ng-show="!loadingPriceVolumeChart && !loadingErrorPriceVolumeChart"></div>
+                                                            <div ng-show="loadingPriceVolumeChart" class="loading">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div ng-show="loadingErrorPriceVolumeChart" class="loading">
+                                                                <div class="alert alert-danger">
+                                                                    Error! Failed to get price data.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane" id='smaChart'>
+                                                            <div id=smaChartContainer ng-show="!loadingsmaChart && !loadingErrorsmaChart"></div>
+                                                            <div ng-show="loadingsmaChart" class="loading">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div ng-show="loadingErrorsmaChart" class="loading">
+                                                                <div class="alert alert-danger">
+                                                                    Error! Failed to get SMA data.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane" id='emaChart'>
+                                                            <div id=emaChartContainer ng-show="!loadingemaChart && !loadingErroremaChart"></div>
+                                                            <div ng-show="loadingsmaChart" class="loading">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div ng-show="loadingErroremaChart" class="loading">
+                                                                <div class="alert alert-danger">
+                                                                    Error! Failed to get EMA data.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane" id='stochChart'>
+                                                            <div id=STOCHChartContainer ng-show="!loadingSTOCHChart && !loadingErrorSTOCHChart"></div>
+                                                            <div ng-show="loadingSTOCHChart" class="loading">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div ng-show="loadingErrorSTOCHChart" class="loading">
+                                                                <div class="alert alert-danger">
+                                                                    Error! Failed to get STOCH data.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane" id='rsiChart'>
+                                                            <div id=RSIChartContainer ng-show="!loadingRSIChart && !loadingErrorRSIChart"></div>
+                                                            <div ng-show="loadingRSIChart" class="loading">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div ng-show="loadingErrorRSIChart" class="loading">
+                                                                <div class="alert alert-danger">
+                                                                    Error! Failed to get RSI data.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane" id='adxChart'>
+                                                            <div id=ADXChartContainer ng-show="!loadingADXChart && !loadingErrorADXChart"></div>
+                                                            <div ng-show="loadingADXChart" class="loading">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div ng-show="loadingErrorADXChart" class="loading">
+                                                                <div class="alert alert-danger">
+                                                                    Error! Failed to get ADX data.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane" id='cciChart'>
+                                                            <div id=CCIChartContainer ng-show="!loadingCCIChart && !oadingErrorCCIChart"></div>
+                                                            <div ng-show="loadingCCIChart" class="loading">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div ng-show="loadingErrorCCIChart" class="loading">
+                                                                <div class="alert alert-danger">
+                                                                    Error! Failed to get CCI data.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane" id='bbandsChart'>
+                                                            <div id=BBANDSChartContainer ng-show="!loadingBBANDSChart"></div>
+                                                            <div ng-show="loadingBBANDSChart" class="loading">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div ng-show="loadingErrorBBANDSChart" class="loading">
+                                                                <div class="alert alert-danger">
+                                                                    Error! Failed to get price data.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="tab-pane" id='macdChart'>
+                                                            <div id=MACDChartContainer ng-show="!loadingMACDChart"></div>
+                                                            <div ng-show="loadingMACDChart" class="loading">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div ng-show="loadingErrorMACDChart" class="loading">
+                                                                <div class="alert alert-danger">
+                                                                    Error! Failed to get price data.
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="historicalChart">
+                                    <div id=StockChartContainer ng-show="!loadingStockChart"></div>
+                                    <div ng-show="loadingStockChart" class="loading">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%"></div>
+                                        </div>
+                                    </div>
+                                    <div ng-show="loadingErrorStockChart" class="loading">
+                                        <div class="alert alert-danger">
+                                            Error! Failed to get Historical Chart data.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="newsFeed">
+                                    <div ng-show="loadingNewsArticles" class="loading">
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width:50%"></div>
+                                        </div>
+                                    </div>
+                                    <div ng-show="loadingErrorNewsArticles" class="loading">
+                                        <div class="alert alert-danger">
+                                            Error! Failed to get News data.
+                                        </div>
+                                    </div>
+                                    <div class="well well-lg" ng-show=!loadingNewsArticles ng-repeat="x in articles">
+                                        <a href="{{x.link}}" target="_blank" style="font-size: 22px;font-weight: inherit;">{{x.title}}</a><br><br>
+                                        <p>Author : {{x.author}}</p>
+                                        <p>Date : {{x.pubdate}}T</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default FavouritesDiv">
+                <div class="panel-heading FavouritesHeading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <span class="font-weight-bold pull-left">Favourite List</span>
+                            <button type="button" class="btn btn-default pull-right slideBtn padding-left-5" id="lftbtn" ng-disabled=goright>
+                       <span class="glyphicon glyphicon-chevron-right"></span>
+                   </button>
+                            <button type="button" class="btn btn-default pull-right padding-left-5" ng-click="favloading()">
+                       <span class="glyphicon glyphicon-refresh"></span>
+                   </button>
+                            <span class="pull-right checkboxfunc"><span class="hidden-xs">Automatic Refresh:</span> <input type="checkbox" data-toggle="toggle" data-width="50" data-height="34" id="autoRefresh" name ="autoRefresh" ng-click="abc()"></span>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                   <div class="row">
+                      <div class="col-md-3">
+                        <div class="row">
+                           <div class="col-md-3 padding-top-5 padding-right-0 font-weight-bold" >
+                              <span class="align-middle">Sort by</span>
+                           </div>
+                           <div class="col-md-8">
+                              <select class="form-control" id="abc" ng-model="sortBy" ng-change="dis(sortBy)">
+                                 <option value="none" selected>Default</option>
+                                 <option value="Sym">Symbol</option>
+                                 <option value="SPrice">Price</option>
+                                 <option value="Changedi">Change</option>
+                                 <option value="Changep">Change Percent</option>
+                                 <option value="vol">Volume</option>
+                              </select>
+                           </div>
+                        </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="row">
+                           <div class="col-md-3 padding-top-5 padding-right-0 font-weight-bold" >
+                              <span class="align-middle">Order</span>
+                           </div>
+                           <div class="col-md-8">
+                              <select class="form-control" id="abc" ng-model="AsD" ng-change="changeAsD(AsD)" ng-disabled=OrderDisable>
+                                 <option value="false">Ascending</option>
+                                 <option value="true">Descending</option>
+                              </select>
+                           </div>
+                        </div>
+                      </div>
+                   </div>
+                   <div class="row padding-top-15">
+                      <div class="table-responsive">
+                        <table id="currentStockTable" class="table">
+                           <tr>
+                              <th>Symbol</th>
+                              <th>Stock Price</th>
+                              <th>Change (Change Percent)</th>
+                              <th>Volume</th>
+                              <th>  </th>
+                           </tr>
+                           <tr class="delRow" ng-repeat="x in favDisplayFront | orderBy:sortBy:AssD">
+                              <td class="symb"><a href="">{{x.Sym  | uppercase}}</a></td>
+                              <td>{{x.SPrice | number}}</td>
+                              <td class={{x.txtclass}}>{{x.Changedi | number: 2}} ({{x.Changep | number: 2}}%) <img src={{x.imgs}} id=arrowimg></td>
+                              <td>{{x.vol | number}}</td>
+                              <td><button type="button" class="btn btn-default " id="del">
+                                 <span class="glyphicon glyphicon-trash"></span>
+                              </button></td>
+                           </tr>
+                        </table>
+                      </div>
+                   </div>
+                </div>
+            </div>
+        </div>
+    <!-- Third Division Ends -->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+</body>
+<script>
+
+
+   $(document).on('click', '#del', function(){
+      var $item = $(this).closest("tr").find(".symb").text();
+      var $item1 = $(this).closest("tr").remove();
+      for(i=0;i<localStorage.length;i++){
+         var key = localStorage.key(i);
+         var value = localStorage[key];
+         if(value == $item){
+            localStorage.removeItem(key);
+            var n = parseInt(localStorage.numOfFav);
+            localStorage.numOfFav = n-1;
+         }
+      }
+      //alert($item);
+   });
+
+
+    $('#starChangeButton').click(function(){
+      if($('#starChange').hasClass("glyphicon-star-empty")){
+         var n = parseInt(localStorage.numOfFav);
+         var keyValue = "Fav" + n;
+         var value = document.getElementById("DisplayedStockName").innerHTML;
+         localStorage.setItem(keyValue, value);
+         localStorage.numOfFav = n+1;
+         $( "#starChange" ).removeClass( "glyphicon-star-empty" ).addClass( "glyphicon-star" );
+      }
+      else{
+         $( "#starChange" ).removeClass( "glyphicon-star" ).addClass( "glyphicon-star-empty" );
+      }
+      if(!$('#starChange').hasClass("glyphicon-star")){
+         var lengthOflstorage = localStorage.length;
+         var Myvalue = document.getElementById("DisplayedStockName").innerHTML;
+         for(i=0;i<lengthOflstorage;i++){
+            var key = localStorage.key(i);
+            var value = localStorage[key];
+            //alert(key + " " + value);
+            if(value == Myvalue){
+               localStorage.removeItem(key);
+               var n = parseInt(localStorage.numOfFav);
+               localStorage.numOfFav = n-1;
+            }
+         }
+      }
+   });
+
+   $(document).ready(function(){
+    if(!localStorage.numOfFav){
+      localStorage.numOfFav = "0";
+   }else{
+      /*var n = localStorage.length;
+      var favArray = new Array();
+      for(i=0;i<n;i++){
+         var key = localStorage.key(i);
+         var val = localStorage[key];
+         favArray.push(val);
+      }
+      console.log(favArray);*/
+   }
+   });
+
+   $("#GetQuoteBtn").click(function(){
+      $( "#starChange" ).removeClass( "glyphicon-star" ).addClass( "glyphicon-star-empty" );
+      if(localStorage.numOfFav){
+         var CurrentSymbolName = $("md-autocomplete md-autocomplete-wrap input").val
+         var n = localStorage.length;
+         for(i=0;i<n;i++){
+            var key = localStorage.key(i);
+            var val = localStorage[key];
+            if(CurrentSymbolName == val){
+               //alert("FOUND");
+               $( "#starChange" ).removeClass( "glyphicon-star-empty" ).addClass( "glyphicon-star" );
+               break;
+            }if(CurrentSymbolName != val){
+               $( "#starChange" ).removeClass( "glyphicon-star" ).addClass( "glyphicon-star-empty" );
+            }
+         }
+
+      }
+   });
+console.log($("ul#Charts li.active")[0]['id']);
+</script>
+
+</html>
