@@ -1,0 +1,34 @@
+{
+  "Mainline": {
+    "Table": {
+      "Header": {
+        "Data": [
+"US Airline",
+"IATA",
+"Main Hubs",
+"Notes",
+"Home Page",
+"Plane with Logo"
+]
+      },
+      "Row": [
+        {
+          "Airline": "Alaska Airlines",
+          "IATA": "AS",
+          "Hubs": {
+            "Hub": [
+              "Seattle/Tacoma",
+              "Anchorage",
+              "Portland (OR)",
+              "San Diego",
+              "San Jose"
+            ]
+          },
+          "Notes": "Founded as McGee Airways, and commenced operations in 1944 as Alaska Airlines. Plans have been made for Alaska Airlines to acquire Virgin America.",
+          "HomePage": "https://www.alaskaair.com/",
+          "Plane": "http://cs-server.usc.edu:45678/hw/hw4/Alaska_Airlines,_Boeing_737.jpg"
+        }
+      ]
+    }
+  }
+}

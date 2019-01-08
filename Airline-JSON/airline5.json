@@ -1,0 +1,67 @@
+
+  {{}{}
+  "Mainline": {
+    "Table": {
+      "Header": {
+        "Data": [
+          "Airline",
+          "IATA",
+          "Hubs",
+          "Notes",
+          "HomePage",
+          "Plane"
+        ]
+      },
+      "Row": [
+        {
+          "Airline": "American Airlines",
+          "IATA": "AA",
+          "Hubs": {
+            "Hub": [
+              "Dallas/Fort Worth",
+              "Charlotte",
+              "Chicago-O'Hare",
+              "Los Angeles",
+              "Miami",
+              "New York-JFK",
+              "New York-LaGuardia",
+              "Philadelphia",
+              "Phoenix",
+              "Washington-National"
+            ]
+          },
+          "HomePage": "http://www.aa.com",
+          "Plane": "http://cs-server.usc.edu:45678/hw/hw4/American_Airlines_Boeing_777.png"
+        },
+        {
+          "Airline": "Delta Air Lines",
+          "IATA": "DL",
+          "Hubs": {
+            "Hub": [
+            ]
+          },
+          "Notes": "Founded as Huff Daland Dusters; largest airline in the world based on number of passengers served per year.",
+          "HomePage": "https://www.delta.com",
+          "Plane": "http://cs-server.usc.edu:45678/hw/hw4/Delta_B747.jpg"
+        },
+        {
+          "Airline": "Frontier Airlines",
+          "IATA": "F9",
+          "Hubs": {
+            "Hub": [
+              "Denver",
+              "Atlanta",
+              "Chicago-O'Hare",
+              "Cleveland",
+              "Miami",
+              "Orlando",
+              "Trenton",
+              "Washington-Dulles"
+            ]
+          },
+          "HomePage": "http://www.flyfrontier.com/"
+        }
+      ]
+    }
+  }
+}

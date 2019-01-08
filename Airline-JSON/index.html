@@ -1,0 +1,179 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>HomeWork 4</title>
+    <meta name="description" content="">
+    <meta name="Parth Vaghani" content="Homework 4">
+
+    <script>
+
+    //JSON
+
+    function IsJsonString(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+      alert("Not Well formed json");
+        return false;
+    }
+    return true;
+}
+
+    function fetchdata(){
+
+
+
+      var output="<table> <tr> ";
+
+      var fname =document.getElementById('fname').value ;
+
+      if(fname.length<1){
+        alert("Blank text field");
+      }
+
+      var request;
+
+      if(window.XMLHttpRequest){
+        request =  new XMLHttpRequest();
+      }else{
+        request = new ActiveXObject("Microsoft.XMLHTTP");
+      }
+
+      request.open('GET',fname,false);
+
+      console.log(request.status);
+
+      request.onreadystatechange = function(){
+
+        console.log(request);
+        if ((request.status == 404) && (request.readyState == 4)) {
+          alert('No such file found');
+          return;
+        }
+
+        if((request.status == 200) && (request.readyState == 4) ){
+          IsJsonString(request.response);
+          var items = JSON.parse(request.response);
+          console.log(items);
+          var a=items.Mainline.Table.Header.Data;
+
+          for (var i = 0; i < a.length; i++) {
+            output += "<th>" + a[i] + "</th>"
+          }
+
+          output +="</tr>";
+          //console.log(a);
+
+           a = ["Airline","IATA","Hubs","Notes","HomePage","Plane"];
+
+          var b = items.Mainline.Table.Row;
+
+          if(b==undefined){
+            alert("The File contains no Airline Company");
+            return;
+          }
+
+          for (var i = 0; i < b.length; i++) {
+            var c =b[i];
+            output +="<tr>";
+            var d = a[i];
+            for (var j = 0; j < a.length; j++) {
+              if(a[j]=="HomePage"){
+                output += "<td><a href='" + b[i][a[j]]+"'>"+b[i][a[j]]+"</a></td>"
+              }else if (a[j]=="Plane") {
+                output += "<td><img src='" + b[i][a[j]]+"'>"+"</td>";
+              }else if (a[j]=="Hubs") {
+                var e = b[i][a[j]];
+                if(e.Hub.length==0){
+                  output+="<td></td>"
+                  console.log("zero");
+                }else {
+                  output += "<td><ul>";
+                  console.log("len-"+e.Hub.length);
+                  for (var k = 0; k < e.Hub.length; k++) {
+                    output +="<li>" + e.Hub[k] +"</li>";
+                    //console.log(k);
+                  }
+                  output += "</ul></td>";
+                }
+              }
+              else{
+                output += "<td>" + b[i][a[j]]+"</td>"
+              }
+
+
+              //console.log(b[i][a[j]]);
+            }
+            output +="</tr>";
+            //console.log(b[i]);
+            //console.log(a[i]);
+
+          }
+
+          output +="</table>";
+          //var myWindow=window.open('index.html','','width=200,height=100');
+          //myWindow.focus();
+          //myWindow.document.write(ouput);
+
+          var newWindow = window.open("", "", "width=1000,height=500,resizeable,scrollbars");
+          //table = document.getElementById("tabledata");
+          var output1="";
+          output1+='<html><head></head><style>table, td, th{border: 1px solid black;}img{height: 100px;width : 200px;} ul li:first-child{ font-weight: bold;}</style><body>';
+          output1+='<table>';
+          output1+=output+'</body></table>';
+          //console.log(output1);
+          newWindow.document.write(output1);
+          newWindow.document.close();
+          if (window.focus)
+          newWindow.focus();
+
+
+        }
+
+
+
+      }
+      request.send();
+      return false;
+    }
+
+
+    </script>
+    <style>
+table, th, td {
+    border: 1px solid black;
+}
+table{
+  width: 100%;
+}
+
+img{
+  height: 100px;
+  width : 200px;
+}
+
+ul li:first-child{
+  font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+    <div>
+        <br><br><br><br><br>
+        <div id=text1><h3 align="center">Enter URL for Airlines List JSON File</h3></div>
+        <div align="center" id="update">
+              <form onsubmit="return fetchdata()">
+                <input type="text" id="fname"><br><br>
+                <input type="button" value="Submit Query" onclick="fetchdata()" id="submit_query"></input>
+              </form>
+            <p id="update"></p>
+        </div>
+    </div>
+</body>
+
+</html>
